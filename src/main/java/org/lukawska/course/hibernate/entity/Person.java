@@ -1,25 +1,32 @@
 package org.lukawska.course.hibernate.entity;
 
-import javax.xml.crypto.Data;
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
+@Entity
+@NamedQuery(name = "getAll", query = "SELECT p FROM Person p")
 public class Person {
 
+    @Id
+    @GeneratedValue()
     private int id;
 
     private String name;
 
     private String location;
 
-    private LocalDateTime birthDate;
+    public Person() {
+    }
 
-    public Person(){}
+    public Person(String name, String location) {
+        this.name = name;
+        this.location = location;
 
-    public Person(int id, String name, String location, LocalDateTime birthDate) {
+    }
+
+    public Person(int id, String name, String location) {
         this.id = id;
         this.name = name;
         this.location = location;
-        this.birthDate = birthDate;
     }
 
     public int getId() {
@@ -46,13 +53,6 @@ public class Person {
         this.location = location;
     }
 
-    public LocalDateTime getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDateTime birthDate) {
-        this.birthDate = birthDate;
-    }
 
     @Override
     public String toString() {
@@ -60,7 +60,6 @@ public class Person {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", location='" + location + '\'' +
-                ", birthDate=" + birthDate +
                 '}';
     }
 }

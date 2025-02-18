@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository
@@ -19,16 +17,14 @@ public class PersonJdbcDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    class PersonRowMapper implements RowMapper<Person>{
+    class PersonRowMapper implements RowMapper<Person> {
 
         @Override
         public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
             Person person = new Person();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             person.setId(rs.getInt("id"));
             person.setName(rs.getString("name"));
             person.setLocation(rs.getString("location"));
-            person.setBirthDate(LocalDateTime.parse(rs.getString("birthDate"), formatter));
             return person;
         }
     }
@@ -55,17 +51,18 @@ public class PersonJdbcDao {
                 id, name);
     }
 
-    public int insert(Person person){
+    public int insert(Person person) {
         return jdbcTemplate.update(
-                "INSERT INTO person (id, name, location, birthDate) VALUES (?, ?, ?, ?)",
-                person.getId(), person.getName(), person.getLocation(), person.getBirthDate());
+                "INSERT INTO person (id, name, location) VALUES (?, ?, ?)",
+                person.getId(), person.getName(), person.getLocation());
     }
 
-    public int update(Person person){
+    public int update(Person person) {
         return jdbcTemplate.update(
                 " UPDATE person "
-                        + " SET name = ?, location = ?, birthDate = ? "
+                        + " SET name = ?, location = ? "
                         + " WHERE person.id = ? ",
-                person.getName(), person.getLocation(), person.getBirthDate(), person.getId());
+                person.getName(), person.getLocation(), person.getId());
     }
 }
+
