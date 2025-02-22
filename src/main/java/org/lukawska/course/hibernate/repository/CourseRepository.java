@@ -31,4 +31,11 @@ public class CourseRepository {
 
         return course;
     }
+
+    public void playWithEntityManager(){
+        Course course = new Course("Maven");
+        em.persist(course);
+        Course course2 = findById(10001L);
+        course2.setName("Spring Update");
+    }
 }

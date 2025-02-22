@@ -1,7 +1,8 @@
 package org.lukawska.course.hibernate;
 
-import org.lukawska.course.hibernate.entity.Course;
+import org.lukawska.course.hibernate.entity.Student;
 import org.lukawska.course.hibernate.repository.CourseRepository;
+import org.lukawska.course.hibernate.repository.StudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,10 @@ public class HibernateApplication implements CommandLineRunner {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private CourseRepository repository;
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(HibernateApplication.class, args);
@@ -23,9 +27,6 @@ public class HibernateApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Course course = repository.findById(10001L);
-        logger.info("My course is {}", course);
-        repository.deleteById(10004L);
-        logger.info("New course is {}", repository.saveCourse(new Course("Java")));
+        studentRepository.saveStudentWithPassport();
     }
 }
