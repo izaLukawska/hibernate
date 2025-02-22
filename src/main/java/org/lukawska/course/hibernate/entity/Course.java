@@ -25,6 +25,9 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private final List<Review> reviews = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "courses")
+    private List<Student> students = new ArrayList<>();
+
     @UpdateTimestamp
     private LocalDateTime lastUpdatedDate;
 
@@ -62,6 +65,18 @@ public class Course {
         this.reviews.remove(review);
     }
 
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void addStudent(Student student){
+        students.add(student);
+    }
+
+    public void removeStudent(Student student){
+        students.remove(student);
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -71,4 +86,5 @@ public class Course {
                 ", creationDate=" + creationDate +
                 '}';
     }
+
 }
