@@ -22,14 +22,14 @@ class JpqlTest {
     private EntityManager em;
 
     @Test
-    public void nativeQuery() {
+    void nativeQuery() {
         Query query = em.createNativeQuery("SELECT * FROM Course", Course.class);
         List courses = query.getResultList();
         logger.info("All my courses are with native query {}", courses);
     }
 
     @Test
-    public void nativeQueryWithParameters() {
+    void nativeQueryWithParameters() {
         Query query = em.createNativeQuery("SELECT * FROM Course WHERE id = ?", Course.class);
         query.setParameter(1, 1000L);
         List courses = query.getResultList();
@@ -37,28 +37,28 @@ class JpqlTest {
     }
     @Test
     @Transactional
-    public void nativeQueryUpdate() {
+    void nativeQueryUpdate() {
         Query query = em.createNativeQuery("UPDATE Course SET last_updated_date = NOW()", Course.class);
         int rowsUpdated = query.executeUpdate();
         logger.info("All rows updated count is {}", rowsUpdated);
     }
 
     @Test
-    public void jpql_basic() {
+    void jpql_basic() {
         Query query = em.createNamedQuery("get_all_courses");
         List courses = query.getResultList();
         logger.info("All my courses are with jpql{}", courses);
     }
 
     @Test
-    public void jpql_typed() {
+    void jpql_typed() {
         TypedQuery<Course> typedQuery = em.createNamedQuery("get_all_courses", Course.class);
         List<Course> courses = typedQuery.getResultList();
         logger.info("All my courses are with typed {}", courses);
     }
 
     @Test
-    public void jpql_where() {
+    void jpql_where() {
         TypedQuery<Course> typedQuery = em.createNamedQuery("get_all_courses_where", Course.class);
         List<Course> courses = typedQuery.getResultList();
         logger.info("Matched Courses with where {}", courses);

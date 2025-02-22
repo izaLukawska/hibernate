@@ -1,7 +1,10 @@
 package org.lukawska.course.hibernate.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.lukawska.course.hibernate.entity.Course;
+import org.lukawska.course.hibernate.entity.Review;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +20,13 @@ class CourseRepositoryTest {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
+    private EntityManager em;
+
+    @Autowired
     private CourseRepository testRepository;
 
     @Test
-    public void findById() {
+    void findById() {
         //given
         Long id = 10001L;
         String expectedName = "Spring";
@@ -35,7 +41,7 @@ class CourseRepositoryTest {
 
     @Test
     @DirtiesContext //reset data after test
-    public void deleteById(){
+    void deleteById(){
         //given
         Long id = 10002L;
 
@@ -48,7 +54,7 @@ class CourseRepositoryTest {
 
     @Test
     @DirtiesContext
-    public void saveCourse(){
+    void saveCourse(){
         //given
         Long id = 10001L;
         Course course = testRepository.findById(id);
@@ -61,5 +67,19 @@ class CourseRepositoryTest {
         //then
         assertEquals(expectedName, actualCourse.getName());
         assertEquals(course.getId(), actualCourse.getId());
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsForCourse(){
+        Course course = testRepository.findById(10001L);
+        logger.info("My reviews for course 10001 L are {}", course.getReviews());
+    }
+
+    @Test
+    @Transactional
+    void getCourseForReview(){
+        Review review = em.find(Review.class, 50001L);
+        logger.info("My course for the review is {}", review.getCourse());
     }
 }

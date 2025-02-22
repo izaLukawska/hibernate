@@ -15,6 +15,7 @@ public class Student {
     @OneToOne(fetch = FetchType.LAZY)
     private Passport passport;
 
+
     protected Student() {
     }
 

@@ -16,8 +16,8 @@ VALUES (20001, 'Izabela', 40001),
        (20003, 'Jan', 40003),
        (20004, 'Anna',40004);
 
-INSERT INTO Review(id, rating, description)
-VALUES (50001, '5', 'Great course'),
-       (50002, '1', 'Really bad course'),
-       (50003, '3', 'Its an okay course'),
-       (50004, '4', 'Really good, new some changes though');
+INSERT INTO Review(id, rating, description, course_id)
+VALUES (50001, '5', 'Great course',10001),
+       (50002, '1', 'Really bad course', 10002),
+       (50003, '3', 'Its an okay course', 10003),
+       (50004, '4', 'Really good', 10001);

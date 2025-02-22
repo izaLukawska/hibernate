@@ -17,7 +17,6 @@ class StudentRepositoryTest {
 
     @Autowired
     EntityManager em;
-    String associated;
 
     @Test
     @Transactional
