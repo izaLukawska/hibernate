@@ -82,8 +82,6 @@ public class Course {
         return "Course{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", lastUpdatedDate=" + lastUpdatedDate +
-                ", creationDate=" + creationDate +
                 '}';
     }
 

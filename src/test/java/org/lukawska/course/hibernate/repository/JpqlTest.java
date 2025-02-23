@@ -6,6 +6,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.lukawska.course.hibernate.entity.Course;
+import org.lukawska.course.hibernate.entity.Student;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +63,37 @@ class JpqlTest {
         TypedQuery<Course> typedQuery = em.createNamedQuery("get_all_courses_where", Course.class);
         List<Course> courses = typedQuery.getResultList();
         logger.info("Matched Courses with where {}", courses);
+    }
+
+    @Test
+    void jpql_getCoursesWithoutStudent(){
+        TypedQuery<Course> query = em.createQuery("SELECT c FROM Course c WHERE c.students IS EMPTY", Course.class);
+        List<Course> resultList = query.getResultList();
+
+        logger.info("Courses without students are {}", resultList);
+    }
+
+    @Test
+    void jpql_getCoursesWithAtLeast2Students(){
+        TypedQuery<Course> query = em.createQuery("SELECT c FROM Course c WHERE size(c.students) > 1", Course.class);
+        List<Course> resultList = query.getResultList();
+
+        logger.info("Courses with 2 students are {}", resultList);
+    }
+
+    @Test
+    void jpql_getCoursesOrderByStudentCount(){
+        TypedQuery<Course> query = em.createQuery("SELECT c FROM Course c ORDER BY size(c.students) DESC", Course.class);
+        List<Course> resultList = query.getResultList();
+
+        logger.info("Courses ordered are {}", resultList);
+    }
+
+    @Test
+    void jpql_getStudentsWithPassportPattern(){
+        TypedQuery<Student> query = em.createQuery("SELECT s FROM Student s WHERE s.passport.number LIKE '%123%'", Student.class);
+        List<Student> resultList = query.getResultList();
+
+        logger.info("My students matched are {}", resultList);
     }
 }
