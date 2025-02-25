@@ -40,14 +40,24 @@ class CourseRepositoryTest {
     }
 
     @Test
+    @Transactional //without it there will be a query run again
+    void findById_firstLevelCacheDemo(){
+        Course course = testRepository.findById(10001L);
+        //query will be run
+        logger.info("My course is {}", course);
+        //no query - data retrieved from cache lvl1 (single transaction)
+        Course course1 = testRepository.findById(10001L);
+        assertEquals("Spring",course.getName());
+
+    }
+
+    @Test
     @DirtiesContext //reset data after test
     void deleteById(){
         //given
         Long id = 10002L;
-
         //when
         testRepository.deleteById(id);
-
         //then
         assertNull(testRepository.findById(id));
     }

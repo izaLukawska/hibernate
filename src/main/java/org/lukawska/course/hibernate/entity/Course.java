@@ -2,8 +2,11 @@ package org.lukawska.course.hibernate.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import org.hibernate.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,7 +17,12 @@ import java.util.List;
         @NamedQuery(name = "get_all_courses", query = "SELECT c FROM Course c"),
         @NamedQuery(name = "get_all_courses_where", query = "SELECT c FROM Course c WHERE c.name LIKE 'Spr%'")
 })
+@Cacheable
+@SQLDelete(sql = "UPDATE course SET is_deleted = true WHERE id = ?")
+@SQLRestriction("is_deleted = false") //instead of WHERE (deprecated)
 public class Course {
+
+    private static Logger logger = LoggerFactory.getLogger(Course.class);
 
     @Id
     @GeneratedValue
@@ -30,6 +38,8 @@ public class Course {
     @JsonIgnore
     private List<Student> students = new ArrayList<>();
 
+    private boolean isDeleted;
+
     @UpdateTimestamp
     private LocalDateTime lastUpdatedDate;
 
@@ -37,6 +47,12 @@ public class Course {
     private LocalDateTime creationDate;
 
     protected Course() {
+    }
+
+    @PreRemove
+    private void preRemove(){
+        logger.info("Course is being removed");
+        this.isDeleted = true;
     }
 
     public Course(String name) {
@@ -59,11 +75,11 @@ public class Course {
         return reviews;
     }
 
-    public void addReview(Review review){
+    public void addReview(Review review) {
         this.reviews.add(review);
     }
 
-    public void removeReview(Review review){
+    public void removeReview(Review review) {
         this.reviews.remove(review);
     }
 
@@ -71,11 +87,11 @@ public class Course {
         return students;
     }
 
-    public void addStudent(Student student){
+    public void addStudent(Student student) {
         students.add(student);
     }
 
-    public void removeStudent(Student student){
+    public void removeStudent(Student student) {
         students.remove(student);
     }
 

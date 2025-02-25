@@ -1,8 +1,8 @@
-INSERT INTO course (id, name, creation_date, last_updated_date)
-VALUES (10001, 'Spring', NOW(),NOW()),
-       (10002, 'jUnit 5', NOW(), NOW()),
-       (10003, 'Spring Boot', NOW(), NOW()),
-       (10004, 'Hibernate', NOW(), NOW());
+INSERT INTO course (id, name, creation_date, last_updated_date, is_deleted)
+VALUES (10001, 'Spring', NOW(),NOW(), false),
+       (10002, 'jUnit 5', NOW(), NOW(), false),
+       (10003, 'Spring Boot', NOW(), NOW(), false),
+       (10004, 'Hibernate', NOW(), NOW(), false);
 
 INSERT INTO passport(id, number)
 VALUES (40001, 'ABC123'),
@@ -17,10 +17,10 @@ VALUES (20001, 'Izabela', 40001),
        (20004, 'Anna',40004);
 
 INSERT INTO review(id, rating, description, course_id)
-VALUES (50001, '5', 'Great course',10001),
-       (50002, '1', 'Really bad course', 10002),
-       (50003, '3', 'Its an okay course', 10003),
-       (50004, '4', 'Really good', 10001);
+VALUES (50001, 'FIVE', 'Great course',10001),
+       (50002, 'ONE', 'Really bad course', 10002),
+       (50003, 'THREE', 'Its an okay course', 10003),
+       (50004, 'FOUR', 'Really good', 10001);
 
 INSERT INTO student_course(student_id, course_id)
 VALUES (20001, 10003),

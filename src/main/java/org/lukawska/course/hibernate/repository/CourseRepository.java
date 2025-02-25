@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.lukawska.course.hibernate.entity.Course;
 import org.lukawska.course.hibernate.entity.Review;
+import org.lukawska.course.hibernate.entity.ReviewRating;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,8 @@ public class CourseRepository {
         Course course = findById(10003L);
         logger.info("My current reviews are {}", course.getReviews());
 
-        Review review1 = new Review("4", "Very good course");
-        Review review2 = new Review("5", "Amazing course");
+        Review review1 = new Review(ReviewRating.FOUR, "Very good course");
+        Review review2 = new Review(ReviewRating.FIVE, "Amazing course");
 
         course.addReview(review1);
         review1.setCourse(course);

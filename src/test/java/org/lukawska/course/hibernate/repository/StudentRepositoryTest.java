@@ -3,6 +3,7 @@ package org.lukawska.course.hibernate.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
+import org.lukawska.course.hibernate.entity.Address;
 import org.lukawska.course.hibernate.entity.Course;
 import org.lukawska.course.hibernate.entity.Passport;
 import org.lukawska.course.hibernate.entity.Student;
@@ -31,8 +32,19 @@ class StudentRepositoryTest {
     @Transactional //we have lazy fetching so without it getPassport won't work
     void findByIdWithPassportDetails() {
         Student student = em.find(Student.class, 20001L);
-        logger.info("My student is {}", student);
-        logger.info("His passport is {}", student.getPassport());
+        logger.info("My student {}", student);
+        logger.info("His passport {}", student.getPassport());
+    }
+
+    @Test
+    @Transactional
+    void setAddressDetailsToStudent() {
+        Student student = em.find(Student.class, 20002L);
+        Address address = new Address("Warsaw", "Dummy Street 5");
+        student.setAddress(address);
+        em.flush();
+        logger.info("My curr student{}", student);
+        logger.info("His address is {}", student.getAddress());
     }
 
     @Test
