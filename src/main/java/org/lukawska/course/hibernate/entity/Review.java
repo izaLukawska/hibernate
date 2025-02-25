@@ -1,5 +1,6 @@
 package org.lukawska.course.hibernate.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -17,6 +18,7 @@ public class Review {
     private String description;
 
     @ManyToOne
+    @JsonIgnore
     private Course course;
 
     protected Review() {
